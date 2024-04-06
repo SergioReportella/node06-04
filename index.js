@@ -3,6 +3,7 @@ const express = require("express");
 require("dotenv").config();
 const characterRouter = require('./api/characters/character.router')
 const { connectMongo } = require('./utils/db')
+const { notFoundHandler, errorHandler } = require("./api/middleware/error.middleware")
 
 // 2. CONFIGURACION
 // mi api va a utilizar formato json, y va a permitir cierto tipo de conexiones
@@ -30,8 +31,12 @@ app.use('/characters', characterRouter)
 
 // 4. MANEJO EXCEPCIONES / ERRORES
 
+app.use(notFoundHandler);
+app.use(errorHandler);
+
 // 5. ACTIVAR
 
 app.listen(PORT, () => {
   console.log(`El servidor se ha iniciado en el puerto: ${PORT}`);
 });
+
